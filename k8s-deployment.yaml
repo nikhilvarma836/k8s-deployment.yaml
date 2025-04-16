@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: golang-datetime-webapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: golang-datetime-webapp
+  template:
+    metadata:
+      labels:
+        app: golang-datetime-webapp
+    spec:
+      containers:
+      - name: golang-datetime-webapp
+        image: nikhil346/golang-datetime-webapp:datetimewebapp
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: golang-datetime-webapp-service
+spec:
+  selector:
+    app: golang-datetime-webapp
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+
